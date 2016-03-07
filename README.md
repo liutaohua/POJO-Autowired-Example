@@ -1,26 +1,26 @@
-# ¸ù¾İ×¢½â×¢ÈëÖµ
+# æ ¹æ®æ³¨è§£æ³¨å…¥å€¼
 ``` java
 	 private Map getPojoFiledMap() throws NoSuchMethodException {
-        //µÃµ½Ä¿±êÀàµÄËùÓĞ×Ö¶ÎÁĞ±í
+        //å¾—åˆ°ç›®æ ‡ç±»çš„æ‰€æœ‰å­—æ®µåˆ—è¡¨
         Field[] field = clazz.getDeclaredFields();
-        //½«ËùÓĞ±êÓĞÖ¸¶¨annotationµÄ×Ö¶Î£¬´æ·Åµ½Ò»¸ömapÖĞ
+        //å°†æ‰€æœ‰æ ‡æœ‰æŒ‡å®šannotationçš„å­—æ®µï¼Œå­˜æ”¾åˆ°ä¸€ä¸ªmapä¸­
         Map fieldMap = new HashMap();
-        //Ñ­»·¶ÁÈ¡ËùÓĞ×Ö¶Î
+        //å¾ªç¯è¯»å–æ‰€æœ‰å­—æ®µ
         for (int i = 0; i < field.length; i++) {
             Field f = field[i];
-            //µÃµ½µ¥¸ö×Ö¶ÎÉÏµÄAnnotation£¬AttributeÊÇÎÒÖ¸¶¨µÄ×¢½â
+            //å¾—åˆ°å•ä¸ªå­—æ®µä¸Šçš„Annotationï¼ŒAttributeæ˜¯æˆ‘æŒ‡å®šçš„æ³¨è§£
             Attribute exa = f.getAnnotation(Attribute.class);
-            //Èç¹û±êÊ¶ÁËAnnotationµÄ»°
+            //å¦‚æœæ ‡è¯†äº†Annotationçš„è¯
             if (null != exa) {
-                //¹¹ÔìÉèÖÃÁËAnnotationµÄ×Ö¶ÎµÄsetter·½·¨
+                //æ„é€ è®¾ç½®äº†Annotationçš„å­—æ®µçš„setteræ–¹æ³•
                 String fieldName = f.getName();
                 String setMethodName = "set" + fieldName.substring(0, 1).toUpperCase()
                         + fieldName.substring(1);
-                //¹¹Ôìµ÷ÓÃµÄmethod
+                //æ„é€ è°ƒç”¨çš„method
                 Method method = clazz.getMethod(setMethodName, new Class[]{
                         f.getType()
                 });
-                //½«Õâ¸ömethodÒÔannotationµÄÃû×ÖÎªkeyÀ´´æÈë
+                //å°†è¿™ä¸ªmethodä»¥annotationçš„åå­—ä¸ºkeyæ¥å­˜å…¥
                 if (!exa.name().equals("")) {
                     fieldMap.put(exa.name(), method);
                 } else {
@@ -31,24 +31,24 @@
         return fieldMap;
     }
 ```
-Ê¹ÓÃµÄ·½Ê½ÈçÏÂ£º
+ä½¿ç”¨çš„æ–¹å¼å¦‚ä¸‹ï¼š
 ``` java
-	//tÊÇannotationÖĞµÄ±äÁ¿Öµ
+	//tæ˜¯annotationä¸­çš„å˜é‡å€¼
 	if (fieldMap.containsKey(t)) {
-         Method setMethod = (Method) fieldMap.get(t);
-         Type[] ts = setMethod.getGenericParameterTypes();
-         //Ö»ÒªÒ»¸ö²ÎÊı
-         String xClass = ts[0].toString();
-         //ÅĞ¶Ï²ÎÊıÀàĞÍ
-         if (xClass.equals("class java.lang.String")) {
-	         //ÕæÕıµÄ×¢ÈëÖµ
+        	Method setMethod = (Method) fieldMap.get(t);
+        	Type[] ts = setMethod.getGenericParameterTypes();
+        	//åªè¦ä¸€ä¸ªå‚æ•°
+        	String xClass = ts[0].toString();
+        	//åˆ¤æ–­å‚æ•°ç±»å‹
+        	if (xClass.equals("class java.lang.String")) {
+	             //çœŸæ­£çš„æ³¨å…¥å€¼
 		     setMethod.invoke(tObject, "aaaa");
-	     }
-    }
+		}
+        }
 ```
-POJOÀà£º
+POJOç±»ï¼š
 ``` java
-	public class Person implements ObjectModel {
+	public class Person {
 
 	    @Attribute(name = "uid")
 	    private String uid;
